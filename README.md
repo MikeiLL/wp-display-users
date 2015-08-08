@@ -25,14 +25,14 @@ WordPress Categories, Posts, Images with slider, Text, Links, Comments, Login an
 
 #Features
 <ul>
-<li>Create multiple rules</li
-<li>Choose user role which you want to display </li
-<li>Include or exclude user by user IDs</li
-<li> Display name, description, email or URL in frontend side</li
-<li> Set limit of user display</li
-<li> Option to display users as selected order by name, id, etc...</li
-<li> Option to display users as selected order asc, desc</li
-<li> Fully Responsive</li
+<li>Create multiple rules</li>
+<li>Choose user role which you want to display </li>
+<li>Include or exclude user by user IDs</li>
+<li> Display name, description, email or URL in frontend side</li>
+<li> Set limit of user display</li>
+<li> Option to display users as selected order by name, id, etc...</li>
+<li> Option to display users as selected order asc, desc</li>
+<li> Fully Responsive</li>
 </ul>
 
 = shortcode =

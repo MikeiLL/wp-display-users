@@ -39,6 +39,8 @@ class WPDU_UW extends WP_Widget {
 		
 		$wpdu_content_word_limit = ( $options['wpdu_content_word_limit'] != "" ) ? sanitize_text_field( $options['wpdu_content_word_limit'] ) : '25';
 		
+		$wpdu_display_pagination_widget = ( $options['wpdu_display_pagination_widget'] != "" ) ? sanitize_text_field( $options['wpdu_display_pagination_widget'] ) : 'false';
+		
 		?>
         <div class="wpdu_container">
             
@@ -89,25 +91,27 @@ class WPDU_UW extends WP_Widget {
 							{
 								$number = 10;
 							} 
-			
-							if ( get_query_var('paged') ) { 
+							
+							if( $wpdu_display_pagination_widget == 'true' ) { 
+							
+								if ( get_query_var('paged') ) { 
+									
+									$paged = get_query_var('paged'); 
+								}
+								else if( get_query_var('page') ) { 
 								
-								$paged = get_query_var('paged'); 
+									$paged = get_query_var('page'); 
+								}
+								else 
+								{ 
+									$paged = 1; 
+								}
+								
+								$offset = ($paged - 1) * $number;
+								$user_args['offset'] = $offset; 
 							}
-							else if( get_query_var('page') ) { 
 							
-								$paged = get_query_var('page'); 
-							}
-							else 
-							{ 
-								$paged = 1; 
-							}
-							
-							$offset = ($paged - 1) * $number;
-							
-							$user_args['number'] = $number; 
-							$user_args['offset'] = $offset; 
-							
+							$user_args['number'] = $number;
 							$user_query = new WP_User_Query( $user_args );
 							
 							if ( ! empty( $user_query->results ) ) {
@@ -191,20 +195,26 @@ class WPDU_UW extends WP_Widget {
 						}
 						echo '</ul>';
 						
-						$total_user = $user_query->total_users;  
-						$total_pages = ceil($total_user / $number);
 						
-						echo '<div class="wpdu-pagination" class="clearfix">';
-							  $current_page = max(1, get_query_var('paged'));
-							  echo paginate_links(array(
-									'base' => get_pagenum_link(1) . '%_%',
-									'format' => 'page/%#%/',
-									'current' => $current_page,
-									'total' => $total_pages,
-									'prev_next'    => true,
-									'type'         => 'list',
-								));
-						echo '</div></div>';
+						if( $wpdu_display_pagination_widget == 'true' ) { 
+							
+							$total_user = $user_query->total_users;  
+							$total_pages = ceil($total_user / $number);
+							
+							echo '<div class="wpdu-pagination" class="clearfix">';
+								  $current_page = max(1, get_query_var('paged'));
+								  echo paginate_links(array(
+										'base' => get_pagenum_link(1) . '%_%',
+										'format' => 'page/%#%/',
+										'current' => $current_page,
+										'total' => $total_pages,
+										'prev_next'    => true,
+										'type'         => 'list',
+									));
+							echo '</div>';
+						}
+						
+						echo '</div>';
 					}
 				}
              ?>

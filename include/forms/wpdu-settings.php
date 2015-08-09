@@ -7,10 +7,11 @@
   if( isset($_POST['setting_restore_submit']) ) {
             
             $wpdu_restore_value_array = array(
-			    "wpdu_username_font_size" =>  25,
+		"wpdu_username_font_size" =>  25,
                 "wpdu_username_text_transform" =>  "uppercase",
                 "wpdu_content_font_size" =>  13,
                 "wpdu_content_word_limit" =>  25,
+		"wpdu_content_word_limit" =>  "false"
             );
 
             $wpdu_restore_setting_value = serialize($wpdu_restore_value_array);
@@ -23,10 +24,11 @@
         if( isset($_POST["setting_submit"]) ) {
 
             $wpdu_value_array = array(
-			    "wpdu_username_font_size"   =>  $_POST["wpdu_username_font_size"],
+		"wpdu_username_font_size"   =>  $_POST["wpdu_username_font_size"],
                 "wpdu_username_text_transform" =>  $_POST["wpdu_username_text_transform"],
                 "wpdu_content_font_size"     =>  $_POST["wpdu_content_font_size"],
-                "wpdu_content_word_limit"    =>  $_POST["wpdu_content_word_limit"]  
+                "wpdu_content_word_limit"    =>  $_POST["wpdu_content_word_limit"], 
+		"wpdu_display_pagination_widget" => $_POST["wpdu_display_pagination_widget"] 
             );
             
             $wpdu_setting_value = serialize($wpdu_value_array);
@@ -49,10 +51,11 @@
         $options = get_option( '_wpdu_settings' );
         $options = unserialize($options);
 		
-		$wpdu_username_font_size = ( $options['wpdu_username_font_size'] != "" ) ? sanitize_text_field( $options['wpdu_username_font_size'] ) : '25';
+	$wpdu_username_font_size = ( $options['wpdu_username_font_size'] != "" ) ? sanitize_text_field( $options['wpdu_username_font_size'] ) : '25';
         $wpdu_username_text_transform = ( $options['wpdu_username_text_transform'] != "" ) ? sanitize_text_field( $options['wpdu_username_text_transform'] ) : 'uppercase';
         $wpdu_content_font_size = ( $options['wpdu_content_font_size'] != "" ) ? sanitize_text_field( $options['wpdu_content_font_size'] ) : '13';
         $wpdu_content_word_limit = ( $options['wpdu_content_word_limit'] != "" ) ? sanitize_text_field( $options['wpdu_content_word_limit'] ) : '25';
+	$wpdu_display_pagination_widget = ( $options['wpdu_display_pagination_widget'] != "" ) ? sanitize_text_field( $options['wpdu_display_pagination_widget'] ) : 'false';
   	?>
     
     <?php
@@ -121,6 +124,18 @@
           <p class="description">
             <?php _e( 'Please enter here { Content Word Limit }. default is 25', 'wp-display-users' ); ?>
           </p></td>
+      </tr>
+      <tr valign="top">
+        <th scope="row"> <label for="wpdu_display_pagination_widget">
+            <?php _e( 'Pagination on Widget', 'wp-display-users' ); ?>
+          </label>
+        </th>
+        <td>
+        	<p class="description">
+        	<input type="checkbox" name="wpdu_display_pagination_widget" id="wpdu_display_pagination_widget" value="true"<?php checked($wpdu_display_pagination_widget,"true"); ?>>
+            <?php _e( 'Please check to enable pagination on widgets.', 'wp-display-users' ); ?>
+          </p>
+        </td>
       </tr>
       <tr valign="top">
         <td colspan="2"> 

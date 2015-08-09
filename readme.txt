@@ -27,7 +27,7 @@ This plugin provides that allows you to display **Users** in any custom template
 
 [wp_display_user id=rule-id]
 
-You can use the <code>[wp_display_user id=rule-id]</code> shortcode to display users lisiting in post and page.
+You can use the <code>[wp_display_user id=rule-id]</code> shortcode to display users lisiting in page.
 
 You can also use this shortcode for custom template.
 

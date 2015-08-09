@@ -21,7 +21,7 @@ This plugin provides that allows you to display **Users** in any post, page and 
 </ul>
 
 #Description
-WordPress Categories, Posts, Images with slider, Text, Links, Comments, Login and Register is a highly customizable widget that displays the Categories, Posts, Images with slider, Text, Links, Comments on your sidebar.
+This plugin provides that allows you to display **Users** in any post, page and widgetized sidebar. It includes the abilities to display name, description, email, URL.
 
 #Features
 <ul>

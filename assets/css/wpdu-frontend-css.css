@@ -4,7 +4,7 @@ div.wpdu-user-container {
 	width: 100%;
 }
 div.wpdu-user-main {
-	width: 30%;
+	width: 29%;
 	float: left;
 	padding: 1%;
 	text-align: center;
@@ -90,6 +90,7 @@ div.wpdu-user-container ul.page-numbers, div.wpdu_container ul.page-numbers {
 div.wpdu-user-container ul.page-numbers li, div.wpdu_container ul.page-numbers li {
   	float:left;
 	text-align:center;
+	list-style:none;
 }
 div.wpdu-user-container ul.page-numbers a, div.wpdu_container ul.page-numbers a {
   background-color: #ebebeb;

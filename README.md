@@ -8,7 +8,7 @@ License: GPLv2 or later<br />
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 </p>
 
-This plugin provides that allows you to display **Users** in any post, page and widgetized sidebar. It includes the abilities to display name, description, email, URL.
+This plugin provides that allows you to display **Users** in any custom template, page and widgetized sidebar. It includes the abilities to display name, description, email, URL.
 
 #Table of contents
 <ul>
@@ -21,7 +21,7 @@ This plugin provides that allows you to display **Users** in any post, page and 
 </ul>
 
 #Description
-This plugin provides that allows you to display **Users** in any post, page and widgetized sidebar. It includes the abilities to display name, description, email, URL.
+This plugin provides that allows you to display **Users** in any custom template, page and widgetized sidebar. It includes the abilities to display name, description, email, URL.
 
 #Features
 <ul>
@@ -39,7 +39,7 @@ This plugin provides that allows you to display **Users** in any post, page and 
 
 [wp_display_user id=rule-id]
 
-You can use the <code>[wp_display_user id=rule-id]</code> shortcode to display users lisiting in post and page.
+You can use the <code>[wp_display_user id=rule-id]</code> shortcode to display users lisiting in page.
 
 You can also use this shortcode for custom template.
 

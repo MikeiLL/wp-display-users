@@ -12,12 +12,12 @@ This plugin provides that allows you to display **Users** in any custom template
 
 #Table of contents
 <ul>
-<li><a href="https://github.com/devnathverma/wp-widget-bundle#description">Description</a></li>
-<li><a href="https://github.com/devnathverma/wp-widget-bundle#features">Features</a></li>
-<li><a href="https://github.com/devnathverma/wp-widget-bundle#requirements">Requirements</a></li>
-<li><a href="https://github.com/devnathverma/wp-widget-bundle#installation">Installation</a></li>
-<li><a href="https://github.com/devnathverma/wp-widget-bundle#contributing">Contributing</a></li>
-<li><a href="https://github.com/devnathverma/wp-widget-bundle#license">License</a></li>
+<li><a href="https://github.com/devnathverma/wp-display-users#description">Description</a></li>
+<li><a href="https://github.com/devnathverma/wp-display-users#features">Features</a></li>
+<li><a href="https://github.com/devnathverma/wp-display-users#requirements">Requirements</a></li>
+<li><a href="https://github.com/devnathverma/wp-display-users#installation">Installation</a></li>
+<li><a href="https://github.com/devnathverma/wp-display-users#contributing">Contributing</a></li>
+<li><a href="https://github.com/devnathverma/wp-display-users#license">License</a></li>
 </ul>
 
 #Description

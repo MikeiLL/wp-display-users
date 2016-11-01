@@ -6,6 +6,7 @@
 
 global $wpdb;
 $query = 'SELECT * FROM '.TBL_DU.' WHERE wpdu_id='.$atts['id'];
+$fields = array_map('strtolower', array_map('trim', explode(',', $atts['fields'])));
 $user_list_record = $wpdb->get_row( $query );
 
 if (!isset($atts['fields'])):
@@ -86,69 +87,41 @@ if( !empty($unserialize_user_roles) ) {
 
 				foreach ( $user_query->results as $user ) {
 
-					$display_name = get_the_author_meta('display_name', $user->ID);
-					$description = get_the_author_meta('description', $user->ID);
-					$website = get_the_author_meta('url', $user->ID);
-					$email = get_the_author_meta('email', $user->ID);
-
 					$match_src = "/src=[\"' ]?([^\"' >]+)[\"' ]?[^>]*>/i" ;
 					$avatar = get_avatar($user->ID); // for example
 					preg_match($match_src, $avatar, $matches);
 					$avatar_src = $matches[1];
-					?>
-                        <?php echo $user_main_container_start ?>
-                            <div class="wpdu-user-image">
-                                <img src="<?php echo $avatar_src; ?>" />
-                            </div>
-                            <h3 class="wpdu-user-name">
-                                <?php if( !empty($user_list_record->wpdu_user_name) && $user_list_record->wpdu_user_name=='true') : ?>
 
-                                        <?php
-										if( !empty($display_name) )
-									    {
-											echo $display_name;
-										}
-										?>
+					echo $user_main_container_start;
 
-                                <?php endif; ?>
-                            </h3>
-                            <?php
-                                  if( !empty($user_list_record->wpdu_user_description) && $user_list_record->wpdu_user_description=='true') :
-							?>
-                            <h4 class="wpdu-user-description">
-                                <span>
-                                   <?php
-									   if( !empty($description) )
-									   {
-										   echo $this->wpdu_user_excerpt($description, $wpdu_content_word_limit);
-									   }
-								   ?>
-                                </span>
-                            </h4>
-                            <?php endif; ?>
-                            <h4 class="wpdu-user-web">
-                                <span>
-									<?php
-									if( !empty($user_list_record->wpdu_user_email) && $user_list_record->wpdu_user_email=='true')
-									{
-										if( !empty($email) )
-										{
-											echo '<strong>Email : </strong>'.$email.'<br />'; 													                                        }
-									}
+					if (count($fields) >= 1):
+            foreach ($fields as $field) {
+              ${$field} = get_the_author_meta($field, $user->ID);
+              switch ($field) {
+                case 'image': $this->wpdu_dislplay_user_image($avatar_src);
+                break;
+                case 'name':
+                case 'display_name':
+                  $this->wpdu_dislplay_user_name($user_list_record, get_the_author_meta('display_name', $user->ID));
+                break;
+                case 'description':
+                  $this->wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit);
+                break;
+                default: $this->wpdu_dislplay_user_defined_field(${$field});
+              }
+            }
+          else:
+            $display_name = get_the_author_meta('display_name', $user->ID);
+            $description = get_the_author_meta('description', $user->ID);
+            $website = get_the_author_meta('url', $user->ID);
+            $email = get_the_author_meta('email', $user->ID);
+            $this->wpdu_dislplay_user_image($avatar_src);
+            $this->wpdu_dislplay_user_name($user_list_record, $display_name);
+            $this->wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit);
+            $this->wpdu_dislplay_user_contact($user_list_record, $website, $email);
+          endif;
 
-									if( !empty($user_list_record->wpdu_user_website) && $user_list_record->wpdu_user_website=='true')
-									{
-										if( !empty($website) )
-										{
-											echo '<strong>Website : </strong>'.$website.'<br />';
-										}
-									}
-                                    ?>
-                            	</span>
-                            </h4>
-                       <?php $container_end ?>
-                    <?php
-
+          echo $container_end;
 				}
 			}
 

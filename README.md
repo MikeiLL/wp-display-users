@@ -41,13 +41,17 @@ This plugin provides that allows you to display **Users** in any custom template
 
 You can use the <code>[wp_display_user id=rule-id]</code> shortcode to display users lisiting in page.
 
+To set sequence of display items or add custom user fields (as seen [here](http://www.templatemonster.com/blog/add-custom-user-meta-data-wordpress/)), add `fields` array attribute to shortcode:
+
+[wp_display_user id=rule-id fields="image, name, email, custom_user_field"]
+
 You can also use this shortcode for custom template.
 
 `<?php echo do_shortcode("[wp_display_user id=rule-id]"); ?>`
 
 = Notices =
 
-** Anyone can write the CSS for my plugin, I will added it. 
+** Anyone can write the CSS for my plugin, I will added it.
 
 #Requirements
 <ul>

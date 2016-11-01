@@ -107,7 +107,7 @@ if( !empty($unserialize_user_roles) ) {
                 case 'description':
                   $this->wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit);
                 break;
-                default: $this->wpdu_dislplay_user_defined_field(${$field});
+                default: $this->wpdu_dislplay_user_defined_field(${$field}, $field);
               }
             }
           else:

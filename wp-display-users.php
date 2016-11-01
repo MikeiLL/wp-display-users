@@ -590,9 +590,9 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type numeric $wpdu_content_word_limit Number of words to display in description
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_defined_field($field_string) {
+		public function wpdu_dislplay_user_defined_field($field_string, $field_name) {
 							?>
-                <h4 class="wpdu-user-<?=$field_string?>">
+                <h4 class="wpdu-user-<?=$field_name?>">
                     <span>
                        <?php
            if( !empty($field_string) ):

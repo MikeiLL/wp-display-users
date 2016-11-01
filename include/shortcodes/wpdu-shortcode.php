@@ -8,13 +8,19 @@ global $wpdb;
 $query = 'SELECT * FROM '.TBL_DU.' WHERE wpdu_id='.$atts['id'];
 $fields = array_map('strtolower', array_map('trim', explode(',', $atts['fields'])));
 $user_list_record = $wpdb->get_row( $query );
+$display_format = 'h3';
 
 if (!isset($atts['fields'])):
   $user_container_start = '<div class="wpdu-user-container">';
   $container_end = '</div>';
   $user_main_container_start = '<div class="wpdu-user-main">';
 else:
-  $user_main_container_start = $container_end = $user_container_start = '';
+  if (isset($atts['list'])) {
+    $user_main_container_start = $container_end = $user_container_start = '<ul>';
+    $display_format = 'li';
+  } else {
+    $user_main_container_start = $container_end = $user_container_start = '';
+  }
 endif;
 
 if( empty($user_list_record) ) return;
@@ -92,22 +98,22 @@ if( !empty($unserialize_user_roles) ) {
 					preg_match($match_src, $avatar, $matches);
 					$avatar_src = $matches[1];
 
-					echo $user_main_container_start;
+					echo $user_main_container_start . '<ul>';
 
 					if (count($fields) >= 1):
             foreach ($fields as $field) {
               ${$field} = get_the_author_meta($field, $user->ID);
               switch ($field) {
-                case 'image': $this->wpdu_dislplay_user_image($avatar_src);
+                case 'image': $this->wpdu_dislplay_user_image($avatar_src, $display_format);
                 break;
                 case 'name':
                 case 'display_name':
-                  $this->wpdu_dislplay_user_name($user_list_record, get_the_author_meta('display_name', $user->ID));
+                  $this->wpdu_dislplay_user_name($user_list_record, get_the_author_meta('display_name', $user->ID), $display_format);
                 break;
                 case 'description':
-                  $this->wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit);
+                  $this->wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit, $display_format);
                 break;
-                default: $this->wpdu_dislplay_user_defined_field(${$field}, $field);
+                default: $this->wpdu_dislplay_user_defined_field(${$field}, $field, $display_format);
               }
             }
           else:
@@ -115,13 +121,13 @@ if( !empty($unserialize_user_roles) ) {
             $description = get_the_author_meta('description', $user->ID);
             $website = get_the_author_meta('url', $user->ID);
             $email = get_the_author_meta('email', $user->ID);
-            $this->wpdu_dislplay_user_image($avatar_src);
-            $this->wpdu_dislplay_user_name($user_list_record, $display_name);
-            $this->wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit);
-            $this->wpdu_dislplay_user_contact($user_list_record, $website, $email);
+            $this->wpdu_dislplay_user_image($avatar_src, $display_format);
+            $this->wpdu_dislplay_user_name($user_list_record, $display_name, $display_format);
+            $this->wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit, $display_format);
+            $this->wpdu_dislplay_user_contact($user_list_record, $website, $email, $display_format);
           endif;
 
-          echo $container_end;
+          echo $container_end . '</ul>';
 				}
 			}
 

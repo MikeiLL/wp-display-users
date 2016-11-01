@@ -506,9 +506,10 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type string $display_name User display name from database
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_name($user_list_record, $display_name) {
+		public function wpdu_dislplay_user_name($user_list_record, $display_name, $display_format) {
+		  $display_format = ($display_format == 'h3' ? 'h4' : $display_format);
 			?>
-		 	  <h3 class="wpdu-user-name">
+		 	  <<?=$display_format?> class="wpdu-user-name">
                   <?php if( !empty($user_list_record->wpdu_user_name) && $user_list_record->wpdu_user_name=='true') : ?>
 
                           <?php
@@ -519,7 +520,7 @@ if( !class_exists('WP_Display_Users') ) {
       ?>
 
                   <?php endif; ?>
-              </h3>
+              </<?=$display_format?>>
         <?php
 		  }
 
@@ -531,19 +532,19 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type numeric $wpdu_content_word_limit Number of words to display in description
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit) {
+		public function wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit, $display_format) {
          if( !empty($user_list_record->wpdu_user_description) && $user_list_record->wpdu_user_description=='true') :
 							?>
-                <h4 class="wpdu-user-description">
+                <<?=$display_format?> class="wpdu-user-description">
                     <span>
                        <?php
            if( !empty($description) )
            {
-             echo $this->wpdu_user_excerpt($description, $wpdu_content_word_limit);
+             echo $this->wpdu_user_excerpt($description, $wpdu_content_word_limit, $display_format);
            }
          ?>
                     </span>
-                </h4>
+                </<?=$display_format?>>
       <?php endif;
 		  }
 
@@ -555,10 +556,10 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type string $email User email from database
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_contact($user_list_record, $website, $email) {
+		public function wpdu_dislplay_user_contact($user_list_record, $website, $email, $display_format) {
 
 			?>
-		 	  <h4 class="wpdu-user-contact">
+		 	  <<?=$display_format?> class="wpdu-user-contact">
             <span>
 									<?php
 									if( !empty($user_list_record->wpdu_user_email) && $user_list_record->wpdu_user_email=='true')
@@ -578,7 +579,7 @@ if( !class_exists('WP_Display_Users') ) {
 									}
                   ?>
             </span>
-          </h4>
+          </<?=$display_format?>>
         <?php
 		  }
 
@@ -590,9 +591,9 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type numeric $wpdu_content_word_limit Number of words to display in description
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_defined_field($field_string, $field_name) {
+		public function wpdu_dislplay_user_defined_field($field_string, $field_name, $display_format) {
 							?>
-                <h4 class="wpdu-user-<?=$field_name?>">
+                <<?=$display_format?> class="wpdu-user-<?=$field_name?>">
                     <span>
                        <?php
            if( !empty($field_string) ):
@@ -601,7 +602,7 @@ if( !class_exists('WP_Display_Users') ) {
            }
          ?>
                     </span>
-                </h4>
+                </<?=$display_format?>>
       <?php endif;
 		  }
 

@@ -2,7 +2,7 @@
 Contributors: Devnath verma
 Tags: widgets, users, display users, wp users, wp display user
 Requires at least: 3.5
-Tested up to: 4.2.2
+Tested up to: 4.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,10 +12,10 @@ This plugin provides that allows you to display **Users** in any custom template
 
 This plugin provides that allows you to display **Users** in any custom template, page and widgetized sidebar. It includes the abilities to display name, description, email, URL.
 
-= Features = 
+= Features =
 
 * Create multiple rules
-* Choose user role which you want to display 
+* Choose user role which you want to display
 * Include or exclude user by user IDs
 * Display name, description, email or URL in frontend side
 * Set limit of user display
@@ -29,6 +29,10 @@ This plugin provides that allows you to display **Users** in any custom template
 
 You can use the <code>[wp_display_user id=rule-id]</code> shortcode to display users lisiting in page.
 
+To set sequence of display items or add custom user fields (as seen [here](http://www.templatemonster.com/blog/add-custom-user-meta-data-wordpress/)), add `fields` array attribute to shortcode:
+
+[wp_display_user id=rule-id fields="image, name, email, custom_user_field"]
+
 You can also use this shortcode for custom template.
 
 `<?php echo do_shortcode("[wp_display_user id=rule-id]"); ?>`
@@ -36,8 +40,8 @@ You can also use this shortcode for custom template.
 = Notices =
 
 ** WP Display Users ** is now also on [GitHub](https://github.com/devnathverma/wp-display-users)!
-	
-** Anyone can write the CSS for my plugin, I will added it. 
+
+** Anyone can write the CSS for my plugin, I will added it.
 
 == Installation ==
 

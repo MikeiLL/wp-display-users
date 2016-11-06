@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Required file for add user rule.
  * @version 1.0.0
@@ -12,7 +12,7 @@
     <table class="form-table">
       <tbody>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
                 <label for="blogname">Rule Title&nbsp;<span style="color:#F00;">*</span></label>
           </th>
           <td>
@@ -23,7 +23,7 @@
           </td>
         </tr>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
                 <label for="blogname">Choose Roles&nbsp;<span style="color:#F00;">*</span></label>
           </th>
           <td>
@@ -49,7 +49,7 @@
                           {
                     ?>
                                 <input type="checkbox" name="wpdu_user_roles[]" class="wpdu_check_user_id" value="<?php echo $user_role; ?>" checked="checked" />&nbsp;<?php echo $user_role; ?>
-                    <?php  
+                    <?php
                           }
                           else
                           {
@@ -73,7 +73,7 @@
           </th>
           <td>
           		<select name="wpdu_user_incexe" id="wpdu_user_incexe">
-                  <option value="">None</option>	
+                  <option value="">None</option>
                   <option value="include" <?php selected($_POST['wpdu_user_incexe'],'include'); ?>>Include</option>
                   <option value="exclude" <?php selected($_POST['wpdu_user_incexe'],'exclude'); ?>>Exclude</option>
                 </select>
@@ -82,7 +82,7 @@
             </p></td>
         </tr>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
           	<label for="default_role"></label>
           </th>
           <td>
@@ -93,7 +93,7 @@
             </td>
         </tr>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
                 <label for="blogname">Display name</label>
           </th>
           <td>
@@ -104,18 +104,18 @@
           </td>
         </tr>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
                 <label for="blogname">Display Email</label>
           </th>
           <td>
                 <p class="description">
-                <input type="checkbox" name="wpdu_user_email" id="wpdu_user_email" value="true" <?php if( !empty($_POST['wpdu_user_email']) ) { checked($_POST['wpdu_user_email'],"true"); } ?> /> 
+                <input type="checkbox" name="wpdu_user_email" id="wpdu_user_email" value="true" <?php if( !empty($_POST['wpdu_user_email']) ) { checked($_POST['wpdu_user_email'],"true"); } ?> />
                 <?php _e( 'Please check to enable display email address.', 'wp-display-users' ); ?>
                 </p>
           </td>
         </tr>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
                 <label for="blogname">Display Description</label>
           </th>
           <td>
@@ -126,7 +126,7 @@
           </td>
         </tr>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
                 <label for="blogname">Display Website</label>
           </th>
           <td>
@@ -137,7 +137,7 @@
           </td>
         </tr>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
                 <label for="blogname">Limit</label>
           </th>
           <td>
@@ -148,7 +148,7 @@
           </td>
         </tr>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
                 <label for="blogname">Select Order By</label>
           </th>
           <td>
@@ -168,7 +168,7 @@
           </td>
         </tr>
         <tr valign="top">
-          <th scope="row"> 
+          <th scope="row">
                 <label for="blogname">Select Order</label>
           </th>
           <td>
@@ -189,4 +189,3 @@
       </tbody>
     </table>
   </form>
-        

@@ -583,11 +583,10 @@ if( !class_exists('WP_Display_Users') ) {
 		  }
 
 		  /**
-	    * Insert description into page
+	    * Insert User defined fields into page
 	    * @version 1.0.2
-	    * @param @type Object $user_list_record Results from wpdu database call with User Info
-	    * @param @type string $description User biography from database
-	    * @param @type numeric $wpdu_content_word_limit Number of words to display in description
+	    * @param @type string $field_string The string to display in HTML page
+	    * @param @type numeric $field_name Used to create CSS Class name
 		  * @package WP Display Users
 	    */
 		public function wpdu_dislplay_user_defined_field($field_string, $field_name) {

@@ -24,7 +24,7 @@ if ( !class_exists( 'WPDU_Database' ) ) {
 		}
 
 		public static function Reader($query, $connection) {
-			
+
 			$cursor = $connection->get_results($query);
 			return $cursor;
 		}
@@ -35,9 +35,9 @@ if ( !class_exists( 'WPDU_Database' ) ) {
 		}
 
 		public static function NonQuery($query, $connection) {
-			
+
 			$result = $connection->query($query);
-			
+
 			if ($result == 0 or $result=='FALSE')
 			{
 				return false;
@@ -47,31 +47,29 @@ if ( !class_exists( 'WPDU_Database' ) ) {
 		}
 
 		public static function Query($query, $connection) {
-
 			$result = $connection->query($query);
 			return $result;
 		}
-		
-		public static function Run_Query($query) { 
+
+		public static function Run_Query($query) {
 
 			global $wpdb;
 			$result = $wpdb->query($query);
-			return $result;	
+			return $result;
 		}
-		
+
 		public static function Get_Results($query) {
 
 			global $wpdb;
 			$result = $wpdb->get_results($query) or die(mysql_error());
-			return $result;	
+			return $result;
 		}
-		
+
 		public static function InsertOrUpdate($table, $data, $where='') {
-			
+
 			global $wpdb;
-			
+
 			$wpdb->show_errors();
-			
 			if(!is_array($where))
 			$result =$wpdb->insert( $table, $data);
 			else
@@ -80,4 +78,4 @@ if ( !class_exists( 'WPDU_Database' ) ) {
 			return intval($result);
 		}
 	}
-}	
+}

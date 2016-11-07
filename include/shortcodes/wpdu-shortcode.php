@@ -94,20 +94,20 @@ if( !empty($unserialize_user_roles) ) {
 
 					echo $user_main_container_start;
 
-					if (count($fields) >= 1):
+					if (isset($atts['fields'])):
             foreach ($fields as $field) {
               ${$field} = get_the_author_meta($field, $user->ID);
               switch ($field) {
-                case 'image': $this->wpdu_dislplay_user_image($avatar_src);
+                case 'image': $this->wpdu_display_user_image($avatar_src);
                 break;
                 case 'name':
                 case 'display_name':
-                  $this->wpdu_dislplay_user_name($user_list_record, get_the_author_meta('display_name', $user->ID));
+                  $this->wpdu_display_user_name($user_list_record, get_the_author_meta('display_name', $user->ID));
                 break;
                 case 'description':
-                  $this->wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit);
+                  $this->wpdu_display_user_description($user_list_record, $description, $wpdu_content_word_limit);
                 break;
-                default: $this->wpdu_dislplay_user_defined_field(${$field}, $field);
+                default: $this->wpdu_display_user_defined_field(${$field}, $field);
               }
             }
           else:
@@ -115,10 +115,10 @@ if( !empty($unserialize_user_roles) ) {
             $description = get_the_author_meta('description', $user->ID);
             $website = get_the_author_meta('url', $user->ID);
             $email = get_the_author_meta('email', $user->ID);
-            $this->wpdu_dislplay_user_image($avatar_src);
-            $this->wpdu_dislplay_user_name($user_list_record, $display_name);
-            $this->wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit);
-            $this->wpdu_dislplay_user_contact($user_list_record, $website, $email);
+            $this->wpdu_display_user_image($avatar_src);
+            $this->wpdu_display_user_name($user_list_record, $display_name);
+            $this->wpdu_display_user_description($user_list_record, $description, $wpdu_content_word_limit);
+            $this->wpdu_display_user_contact($user_list_record, $website, $email);
           endif;
 
           echo $container_end;

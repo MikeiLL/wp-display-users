@@ -392,7 +392,7 @@ if( !class_exists('WP_Display_Users') ) {
 		 * @param	boolean	$chunk Split long words to chunks of this length
 		 * @param	boolean	$autop	Automatically add paragraph
 		 */
-		function wpdu_user_excerpt($text = '', $length = 50, $chunk = 0, $autop = false) {
+		public function wpdu_user_excerpt($text = '', $length = 50, $chunk = 0, $autop = false) {
 
 			if (empty($text))
 			return '';
@@ -491,7 +491,7 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type string $avatar_src Path to image
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_image($avatar_src) {
+		public static function wpdu_display_user_image($avatar_src) {
 			?>
 		 	  <div class="wpdu-user-image">
             <img src="<?php echo $avatar_src; ?>" alt="Avatar Image"/>
@@ -506,7 +506,7 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type string $display_name User display name from database
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_name($user_list_record, $display_name) {
+		public static function wpdu_display_user_name($user_list_record, $display_name) {
 			?>
 		 	  <h3 class="wpdu-user-name">
                   <?php if( !empty($user_list_record->wpdu_user_name) && $user_list_record->wpdu_user_name=='true') : ?>
@@ -531,7 +531,7 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type numeric $wpdu_content_word_limit Number of words to display in description
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_description($user_list_record, $description, $wpdu_content_word_limit) {
+		public static function wpdu_display_user_description($user_list_record, $description, $wpdu_content_word_limit) {
          if( !empty($user_list_record->wpdu_user_description) && $user_list_record->wpdu_user_description=='true') :
 							?>
                 <h4 class="wpdu-user-description">
@@ -539,7 +539,7 @@ if( !class_exists('WP_Display_Users') ) {
                        <?php
            if( !empty($description) )
            {
-             echo $this->wpdu_user_excerpt($description, $wpdu_content_word_limit);
+             echo self::wpdu_user_excerpt($description, $wpdu_content_word_limit);
            }
          ?>
                     </span>
@@ -555,7 +555,7 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type string $email User email from database
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_contact($user_list_record, $website, $email) {
+		public static function wpdu_display_user_contact($user_list_record, $website, $email) {
 
 			?>
 		 	  <h4 class="wpdu-user-contact">
@@ -589,7 +589,7 @@ if( !class_exists('WP_Display_Users') ) {
 	    * @param @type numeric $field_name Used to create CSS Class name
 		  * @package WP Display Users
 	    */
-		public function wpdu_dislplay_user_defined_field($field_string, $field_name) {
+		public static function wpdu_display_user_defined_field($field_string, $field_name) {
 							?>
                 <h4 class="wpdu-user-<?=$field_name?>">
                     <span>

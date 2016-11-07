@@ -6,7 +6,7 @@
 
 class WPDU_UW extends WP_Widget {
 
-	private $username;
+	  private $username;
     private $email;
     private $password;
     private $website;
@@ -25,48 +25,58 @@ class WPDU_UW extends WP_Widget {
 			array( 'description' => __( 'A widget that displays the users.', 'wp-display-users' ) ) // Args
 		);
 	}
-	
-	public function widget( $args, $instance ) { 
-		
+
+	public function widget( $args, $instance ) {
+
 		global $wpdb;
+    $streamline = $instance['streamline'];
+		if ($streamline !== 'on'):
+      $user_container_start = '<div class="wpdu_container">';
+      $container_end = '</div>';
+      $list_end = '</ul>';
+      $user_main_list_start = '<div class="wpdu_contant"><ul class="wpdu-user-list">';
+    else:
+      $list_end = $user_main_list_start = $container_end = $user_container_start = '';
+    endif;
+
 		$query = 'SELECT * FROM '.TBL_DU.' WHERE wpdu_id='.$instance['wpdu_id'];
 		$user_list_record = $wpdb->get_row( $query );
-		
+
 		if( empty($user_list_record) ) return;
-		
+
 		$options = get_option( '_wpdu_settings' );
 		$options = unserialize($options);
-		
+
 		$wpdu_content_word_limit = ( $options['wpdu_content_word_limit'] != "" ) ? sanitize_text_field( $options['wpdu_content_word_limit'] ) : '25';
-		
+
 		$wpdu_display_pagination_widget = ( $options['wpdu_display_pagination_widget'] != "" ) ? sanitize_text_field( $options['wpdu_display_pagination_widget'] ) : 'false';
-		
+
 		?>
-        <div class="wpdu_container">
-            
-            <?php if ( isset( $instance['title'] ) ) { ?>
+        <?php echo $user_container_start ?>
+
+            <?php if ( isset( $instance['title'] ) && ($streamline != 'on')) { ?>
                 <div class="wpdu_wiget_title">
-                
+
                     <h1 class="wpdu_title"><?php echo $instance['title']; ?></h1>
-                 
-                </div>   
+
+                </div>
             <?php } ?>
-            
+
             <?php
 			$unserialize_user_roles = unserialize(stripslashes($user_list_record->wpdu_user_roles));
-				
+
 				if( !empty($unserialize_user_roles) ) {
-					
+
 					if( is_array($unserialize_user_roles) ) {
-						
-						echo '<div class="wpdu_contant"><ul class="wpdu-user-list">';
-						
+
+						echo $user_main_list_start;
+
 						foreach ($unserialize_user_roles as $unserialize_user_role) {
-							
+
 							$user_args['role'] = $unserialize_user_role;
 							$user_args['orderby'] = $user_list_record->wpdu_order_by;
 							$user_args['order']   = $user_list_record->wpdu_order;
-							
+
 							if( $user_list_record->wpdu_user_incexe == 'include' ) {
 
 								if( !empty($user_list_record->wpdu_author_id) )
@@ -74,81 +84,100 @@ class WPDU_UW extends WP_Widget {
 								else
 								$user_args['include'] = '';
 							}
-							
+
 							if( $user_list_record->wpdu_user_incexe == 'exclude' ) {
-								
+
 								if( !empty($user_list_record->wpdu_author_id) )
 								$user_args['exclude'] = $user_list_record->wpdu_author_id;
 								else
 								$user_args['exclude'] = '';
 							}
-							
+
 							if( !empty($user_list_record->wpdu_user_limit) ) {
-				
-								$number = $user_list_record->wpdu_user_limit; 
+
+								$number = $user_list_record->wpdu_user_limit;
 							}
 							else
 							{
 								$number = 10;
-							} 
-							
-							if( $wpdu_display_pagination_widget == 'true' ) { 
-							
-								if ( get_query_var('paged') ) { 
-									
-									$paged = get_query_var('paged'); 
-								}
-								else if( get_query_var('page') ) { 
-								
-									$paged = get_query_var('page'); 
-								}
-								else 
-								{ 
-									$paged = 1; 
-								}
-								
-								$offset = ($paged - 1) * $number;
-								$user_args['offset'] = $offset; 
 							}
-							
+
+							if( $wpdu_display_pagination_widget == 'true' ) {
+
+								if ( get_query_var('paged') ) {
+
+									$paged = get_query_var('paged');
+								}
+								else if( get_query_var('page') ) {
+
+									$paged = get_query_var('page');
+								}
+								else
+								{
+									$paged = 1;
+								}
+
+								$offset = ($paged - 1) * $number;
+								$user_args['offset'] = $offset;
+							}
+
 							$user_args['number'] = $number;
 							$user_query = new WP_User_Query( $user_args );
-							
+
 							if ( ! empty( $user_query->results ) ) {
-								
+
 								foreach ( $user_query->results as $user ) {
-									
+
 									$display_name = get_the_author_meta('display_name', $user->ID);
 									$description = get_the_author_meta('description', $user->ID);
 									$website = get_the_author_meta('url', $user->ID);
 									$email = get_the_author_meta('email', $user->ID);
-									
+
 									$match_src = "/src=[\"' ]?([^\"' >]+)[\"' ]?[^>]*>/i" ;
 									$avatar = get_avatar($user->ID); // for example
 									preg_match($match_src, $avatar, $matches);
 									$avatar_src = $matches[1];
+									$wpdu_advance_widgets = new WP_Display_Users();
+									if (isset($instance['fields'])):
+                    $fields = array_map('strtolower', array_map('trim', explode(',', $instance['fields'])));
+                    foreach ($fields as $field) {
+                      ${$field} = get_the_author_meta($field, $user->ID);
+                      switch ($field) {
+                        case 'image': $wpdu_advance_widgets->wpdu_display_user_image($avatar_src);
+                        break;
+                        case 'name':
+                        case 'display_name':
+                          $wpdu_advance_widgets->wpdu_display_user_name($user_list_record, get_the_author_meta('display_name', $user->ID));
+                        break;
+                        case 'description':
+                          $wpdu_advance_widgets->wpdu_display_user_description($user_list_record, $description, $wpdu_content_word_limit);
+                        break;
+                        default: $wpdu_advance_widgets->wpdu_display_user_defined_field(${$field}, $field);
+                      }
+                    }
+                  else:
 									?>
 										<li class="wpdu-user">
                         					<span class="wpdu-user-avatar">
-												<img src="<?php echo $avatar_src; ?>" />							
+												<img src="<?php echo $avatar_src; ?>" />
 											</span>
 											<span class="wpdu-user-single">
 												<?php if( !empty($user_list_record->wpdu_user_name) && $user_list_record->wpdu_user_name=='true') : ?>
                                                     <span class="wpdu-user-author">
-                                                         
+
                                                             <?php
                                                             if( !empty($display_name) )
-                                                            { 
-                                                                echo $display_name; 
+                                                            {
+                                                                echo $display_name;
                                                             }
-                                                            ?>  
-                                                        
-                                                     </span>   
-                                                  <?php endif; ?> 
-                                                
-												<?php 
-                                                 if( !empty($user_list_record->wpdu_user_description) && $user_list_record->wpdu_user_description=='true') : 
-                                                    ?>		      
+                                                            ?>
+
+                                                     </span>
+                                                  <?php endif; ?>
+
+												<?php
+                                                 if( !empty($user_list_record->wpdu_user_description) && $user_list_record->wpdu_user_description=='true') :
+                                                    ?>
                                                     <span class="wpdu-user-text">
                                                            { "<?php
                                                                if( !empty($description) )
@@ -157,29 +186,29 @@ class WPDU_UW extends WP_Widget {
                                                                }
                                                            ?> " }
                                                     </span>
-                                                <?php endif; ?> 
-                                                
-                                                <?php 
-									if( !empty($user_list_record->wpdu_user_email) && $user_list_record->wpdu_user_email=='true') 
+                                                <?php endif; ?>
+
+                                                <?php
+									if( !empty($user_list_record->wpdu_user_email) && $user_list_record->wpdu_user_email=='true')
 									{
 										?>
                                         <span class="wpdu-user-email">
                                         <?php
 										if( !empty($email) )
-										{ 
+										{
 											echo '<br/><strong>Email : </strong>'.$email; 													                                        }
 										?>
                                         </span>
-                                        <?php    
+                                        <?php
 									}
-								 
-									if( !empty($user_list_record->wpdu_user_website) && $user_list_record->wpdu_user_website=='true') 
+
+									if( !empty($user_list_record->wpdu_user_website) && $user_list_record->wpdu_user_website=='true')
 									{
 										?>
                                         <span class="wpdu-user-url">
                                         <?php
 										if( !empty($website) )
-										{ 
+										{
 											echo '<br/><strong>Website : </strong>'.$website;
 										}
 										?>
@@ -187,21 +216,21 @@ class WPDU_UW extends WP_Widget {
                                         <?php
 									}
                                     ?>
-                                            
-									<?php
-									
+
+									<?php endif; // End if fields are set
+
 								}
 							}
 						}
-						echo '</ul>';
-						
-						
-						if( $wpdu_display_pagination_widget == 'true' ) { 
-							
-							$total_user = $user_query->total_users;  
+						echo $list_end;
+
+
+						if( $wpdu_display_pagination_widget == 'true' ) {
+
+							$total_user = $user_query->total_users;
 							$total_pages = ceil($total_user / $number);
-							
-							echo '<div class="wpdu-pagination" class="clearfix">';
+
+							echo '<div class="wpdu-pagination clearfix">';
 								  $current_page = max(1, get_query_var('paged'));
 								  echo paginate_links(array(
 										'base' => get_pagenum_link(1) . '%_%',
@@ -211,33 +240,39 @@ class WPDU_UW extends WP_Widget {
 										'prev_next'    => true,
 										'type'         => 'list',
 									));
-							echo '</div>';
+							echo $container_end;
 						}
-						
-						echo '</div>';
+
+						echo $container_end;
 					}
 				}
+				echo $container_end;
              ?>
-        </div>
         <?php
 	}
-	
+
 	public function update( $new_instance, $old_instance ) {
 		$instance          = array();
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
 		$instance['wpdu_id'] = ( ! empty( $new_instance['wpdu_id'] ) ) ? strip_tags( $new_instance['wpdu_id'] ) : '';
+		$instance['fields'] = ( ! empty( $new_instance['fields'] ) ) ? strip_tags( $new_instance['fields'] ) : '';
+		$instance[ 'streamline' ] = $new_instance[ 'streamline' ];
 
 		return $instance;
 	}
 
 	public function form( $instance ) {
-		
+
 		global $wpdb;
 	 	$wpdu_rules = $wpdb->get_results("SELECT * FROM ".TBL_DU."");
-	 
+	 	$defaults = array( 'streamline' => 'on' );
+
 		if ( isset( $instance['title'] ) ) {
 			$title = $instance['title'];
-		} 
+		}
+		if ( isset( $instance['fields'] ) ) {
+			$fields = $instance['fields'];
+		}
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
@@ -246,22 +281,32 @@ class WPDU_UW extends WP_Widget {
 			       value="<?php echo esc_attr( $title ); ?>">
 		</p>
         <p>
-            <label for="<?php echo $this->get_field_id('wpdu_id');?>" style="font-weight:bold;">Select Rule : </label> 
+            <label for="<?php echo $this->get_field_id('wpdu_id');?>" style="font-weight:bold;">Select Rule : </label>
             <select id="<?php echo $this->get_field_id('wpdu_id'); ?>" name="<?php echo $this->get_field_name( 'wpdu_id' ); ?>" style="width:80%;">
             <option value="">Select Rule</option>
-            <?php 
+            <?php
             if($wpdu_rules) {
                 foreach($wpdu_rules as $wpdu_rule){  ?>
                     <option value="<?php echo $wpdu_rule->wpdu_id; ?>"<?php selected($wpdu_rule->wpdu_id,$instance['wpdu_id']); ?>><?php echo $wpdu_rule->wpdu_rule_title; ?></option>
-            <?php 
+            <?php
                 }
-            } 
-            ?>	
+            }
+            ?>
             </select>
-        </p> 
+        </p>
+    <p>
+			<label for="<?php echo $this->get_field_id( 'fields' ); ?>"><?php _e( 'Fields to Display:' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'fields' ); ?>"
+			       name="<?php echo $this->get_field_name( 'fields' ); ?>" type="text"
+			       value="<?php echo esc_attr( $fields ); ?>">
+		</p>
+		<p>
+    <input class="checkbox" type="checkbox" <?php checked( $instance[ 'streamline' ], 'on' ); ?> id="<?php echo $this->get_field_id( 'streamline' ); ?>" name="<?php echo $this->get_field_name( 'streamline' ); ?>" />
+    <label for="<?php echo $this->get_field_id( 'streamline' ); ?>">Streamline *YES*</label>
+</p>
 	<?php
 	}
-	
+
 	/**
 		 * Trim a text to a certain number of words, adding a dotdotdot if necessary, and add break to long words.
 		 *
@@ -271,20 +316,20 @@ class WPDU_UW extends WP_Widget {
 		 * @param	boolean	$autop	Automatically add paragraph
 		 */
 		function wpdu_user_widget_excerpt($text = '', $length = 50, $chunk = 0, $autop = false) {
-			
+
 			if (empty($text))
 			return '';
-			
+
 			// ensure that no comment has double spaces
 			$text = trim($text);
 			$text = preg_replace('/\s+/iu', ' ', $text);
 			$actual_length = count(explode(' ', $text));
 			$dotdotdot = ($actual_length > $length) ? apply_filters('wpdu_dotdotdot', '.....') : '';
 			$words = explode(' ', $text, $length + 1);
-	
+
 			if (count($words) > $length)
 			array_pop($words);
-	
+
 			if (!empty($chunk))
 			{
 				$text = '';
@@ -311,11 +356,11 @@ class WPDU_UW extends WP_Widget {
 			{
 				$text = implode(' ', $words);
 			}
-			
+
 			$text .= $dotdotdot;
-	
+
 			if ($autop == true) $text = wpautop($text);
-			
+
 			return trim($text);
 		}
 } // class WPDU_UW

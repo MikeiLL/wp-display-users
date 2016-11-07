@@ -109,3 +109,6 @@ div.wpdu-user-container ul.page-numbers span.current, div.wpdu_container ul.page
   background-color: #ff3c50;
   color: #fff;
 }
+ul {
+  list-style-type: none;
+}

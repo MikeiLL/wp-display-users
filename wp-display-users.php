@@ -494,7 +494,7 @@ if( !class_exists('WP_Display_Users') ) {
 		public function wpdu_dislplay_user_image($avatar_src) {
 			?>
 		 	  <div class="wpdu-user-image">
-            <img src="<?php echo $avatar_src; ?>" />
+            <img src="<?php echo $avatar_src; ?>" alt="Avatar Image"/>
         </div>
         <?php
 		  }
